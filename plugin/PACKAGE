@@ -1,0 +1,16 @@
+package: Sample Plugin
+author: Your Name
+organization: Your Organization
+contact: your@email.com
+version: 0.1
+requires: ''
+rv: 2021.0.0
+
+modes:
+- file: samplePlugin.py
+  load: immediate
+
+description: |
+  <p>
+  Please enter a description for your plugin here
+  </p>
