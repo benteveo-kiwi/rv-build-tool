@@ -6,8 +6,9 @@ This is a script to assist with RV's package development in order to iterate and
 
 
 ### How it works
-It searches inside the `plugin` folder and adds the contents to a zip _.rvpkg_ file.
-It can then install and add the `rvpkg` to the RV installation.
+It searches inside the `plugin` folder and adds the contents to a zip _.rvpkg_ file.  
+It can then install and add the file to the RV home area. In order to do 
+this it uses the `rvpkg` application that comes with RV.  
 It can start/restart RV to pick up the latest changes.
 
 This allows a developer to make changes on their development environment and use the 
@@ -23,17 +24,23 @@ script to deploy and restart to see those reflected on RV.
 1. Clone repo
 2. Copy or write your plugin code inside the `plugin` folder, include a `PACKAGE` yaml 
 file and at least one `mu` or `python` file.
-3. To create the `rvpkg` file:
+3. This step will bundle the files and create the `rvpkg` file inside a 'build' folder.  
+    If you have python 3 as a default in your environment:
     ```bash
-    python3 build-tool.py
+    python build-tool.py
+   ```
+   Otherwise:
+   ```bash
+   python3 build-tool.py
    ```
 4. To install your plugin on RV:
     ```bash
-    python3 build-tool.py --install
+    python build-tool.py --install
    ```
-5. Build, install and restart all current RV sessions:
+5. Build, install and restart all current RV sessions. You can do this after changing 
+   the plugin files to pick up latest changes.
     ```bash
-    python3 build-tool.py --install --restart
+    python build-tool.py --install --restart
    ```
 
 
@@ -41,12 +48,10 @@ file and at least one `mu` or `python` file.
 
 * Written in Python 3
 * Tested with RV-2021.0.0
-* Aims to be completely cross-platform, however it's still a WIP. Please check the
-script to see which features are not implemented yet.
-
-
+* Aims to be completely cross-platform, however it has not been tested in MacOS.  
+  
+  
 
 ----------------------------------------------------------------------------
-_Copyright 2020 Benteveo Ltd._
-
+_Copyright 2020 Benteveo Ltd._  
 _Licensed under the GNU General Public License v3.0_

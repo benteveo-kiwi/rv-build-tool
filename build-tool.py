@@ -25,9 +25,9 @@ WINDOWS_RVPKG = "C:\\Program Files\\Shotgun\\RV-2021.0.0\\bin\\rvpkg.exe"
 LINUX_RVPKG = "rvpkg"
 
 # Location of the installation directory on different platforms
-MACOS_PATH_TO_AREA = "~/Library/Application\ Support/RV"
+MACOS_PATH_TO_AREA = "{}/Library/Application\ Support/RV"
 WINDOWS_PATH_TO_AREA = "{}\\AppData\\Roaming\\RV"
-LINUX_PATH_TO_AREA = "~/.rv/"
+LINUX_PATH_TO_AREA = "{}/.rv"
 
 
 def get_package_info():
@@ -63,11 +63,11 @@ if PLATFORM_NAME == "Windows":
     PACKAGED_FILEPATH = "build\\{}".format(PACKAGE_FILENAME)
 elif PLATFORM_NAME == "Linux":
     RVPKG = LINUX_RVPKG
-    PATH_TO_AREA = LINUX_PATH_TO_AREA
+    PATH_TO_AREA = LINUX_PATH_TO_AREA.format(str(Path.home()))
     PACKAGED_FILEPATH = "build/{}".format(PACKAGE_FILENAME)
 elif PLATFORM_NAME == "Darwin":
     RVPKG = MACOS_RVPKG
-    PATH_TO_AREA = MACOS_PATH_TO_AREA
+    PATH_TO_AREA = MACOS_PATH_TO_AREA.format(str(Path.home()))
     PACKAGED_FILEPATH = "build/{}".format(PACKAGE_FILENAME)
 
 
@@ -100,13 +100,14 @@ def build():
 
 def install():
     """
-    Runs the 'rvpkg' program to add and install the current rvpkg file that it's inside the build folder
+    Runs the 'rvpkg' program to add and install the current rvpkg file that
+    it's inside the build folder
     It takes into account the current OS to find the correct folders
     """
     clean_existing_installation()
 
-    process = subprocess.run([RVPKG, "-install", "-add", PATH_TO_AREA, PACKAGED_FILEPATH],
-                            capture_output=True)
+    process = subprocess.run([RVPKG, "-install", "-add",
+                              PATH_TO_AREA, PACKAGED_FILEPATH])
 
     print(process)
 
@@ -122,17 +123,20 @@ def restart_rv():
     """
     Kills all current instances of RV and starts a new one
     """
-    # TODO: Implement other for other platforms
     if PLATFORM_NAME == "Windows":
         subprocess.run(["taskkill", "/F", "/IM", "rv.exe", "/T"])
         subprocess.run(["start", "RV"], shell=True)
-        print("Signal sent to start RV")
 
     if PLATFORM_NAME == "Linux":
-        print("Restart on Linux not implemented yet")
+        subprocess.run("kill $(ps aux | grep rv.bin | awk '{print $2}')",
+                        shell=True)
+        subprocess.run("rv&", shell=True)
 
+    # WARNING: This code is the same as the Linux one and untested
     if PLATFORM_NAME == "Darwin":
-        print("Restart on MacOS not implemented yet")
+        subprocess.run("kill $(ps aux | grep rv.bin | awk '{print $2}')",
+                        shell=True)
+        subprocess.run("rv&", shell=True
 
 
 def main(args):
@@ -147,6 +151,7 @@ def main(args):
     if args.restart:
         print("Restarting current open RV session")
         restart_rv()
+        print("Signal sent to start RV")
 
 
 if __name__ == "__main__":
