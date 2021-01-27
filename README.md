@@ -24,7 +24,7 @@ script to deploy and restart to see those reflected on RV.
 1. Clone repo
 2. Copy or write your plugin code inside the `plugin` folder, include a `PACKAGE` yaml 
 file and at least one `mu` or `python` file.
-3. This step will bundle the files and create the `rvpkg` file inside a 'build' folder
+3. This step will bundle the files and create the `rvpkg` file inside a 'build' folder.  
     If you have python 3 as a default in your environment:
     ```bash
     python build-tool.py
@@ -32,7 +32,7 @@ file and at least one `mu` or `python` file.
    Otherwise:
    ```bash
    python3 build-tool.py
-  ```
+   ```
 4. To install your plugin on RV:
     ```bash
     python build-tool.py --install
