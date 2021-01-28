@@ -136,7 +136,7 @@ def restart_rv():
     if PLATFORM_NAME == "Darwin":
         subprocess.run("kill $(ps aux | grep rv.bin | awk '{print $2}')",
                         shell=True)
-        subprocess.run("rv&", shell=True
+        subprocess.run("rv&", shell=True)
 
 
 def main(args):
